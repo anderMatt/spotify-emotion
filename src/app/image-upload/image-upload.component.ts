@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Store} from '@ngrx/store';
 
 import * as fromRoot from '../store/app.state';
-import {UploadImageAction} from '../store/image-analysis.actions';
+import {AnalyzeImageRequestAction} from '../store/image-analysis.actions';
 
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -16,9 +16,9 @@ import {ImageAnalyzerService} from '../shared/image-analyzer.service';
   	<button class="btn btn-primary"><label for="image-input">{{image? 'Use Different Image' : 'Upload Image'}} <i class="fa fa-upload"></i></label>
   	<input (change)="onFileSelect($event)" type="file" id="image-input" accept="image/jpg, image/png" />
   	</button>
-  	<button *ngIf="image$ | async" class="btn btn-success" (click)="analyzeImage()">Generate Playlist <i class="fa fa-music"></i></button>
+  	<button *ngIf="image" class="btn btn-success" (click)="analyzeImage()">Generate Playlist <i class="fa fa-music"></i></button>
   </div>
-  <app-image-preview [image]="image$ | async"></app-image-preview>
+  <app-image-preview [image]="image"></app-image-preview>
 
   <!-- IMAGE PREVIEW DETAIL [src]= -->
   `,
@@ -42,14 +42,12 @@ import {ImageAnalyzerService} from '../shared/image-analyzer.service';
   `]
 })
 export class ImageUploadComponent implements OnInit {
-  image$: Observable<string>;
+  image: string;
   fileReader: FileReader;
 
   constructor(private imageAnalyzerService: ImageAnalyzerService, private store: Store<fromRoot.AppState>) {
   	this.fileReader = new FileReader();
   	this._initFileReader();
-
-  	this.image$ = this.store.select(fromRoot.getImage);
   }
 
   ngOnInit() {
@@ -57,7 +55,8 @@ export class ImageUploadComponent implements OnInit {
 
   _initFileReader(){
   	this.fileReader.onloadend = () => {
-  		this.store.dispatch(new UploadImageAction(this.fileReader.result));
+  		// this.store.dispatch(new UploadImageAction(this.fileReader.result));
+      this.image = this.fileReader.result;
   	}
   }
   onFileSelect(event){
@@ -71,6 +70,6 @@ export class ImageUploadComponent implements OnInit {
 
   analyzeImage(): void{
   	console.log('Inside UplodComponent.analyzeImage()');
-  	// this.imageAnalyzerService.generatePlaylistFromImage(this.image);
+    this.store.dispatch(new AnalyzeImageRequestAction(this.image))
   }
 }
