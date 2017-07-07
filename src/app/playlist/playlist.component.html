@@ -1,3 +1,6 @@
-<p>
-  playlist works!
-</p>
+<div class="row">
+	<div class="page-header">Your Playlist</div>
+	<div *ngFor="let song of playlist$ | async">  <!--TODO: detail component -->
+		<p>A song: {{song}}</p>
+	</div>
+</div>

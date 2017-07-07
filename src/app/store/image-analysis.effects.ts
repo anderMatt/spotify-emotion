@@ -6,6 +6,7 @@ import {of} from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/switchmap';
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/mergemap';
 
 import {ImageAnalyzerService} from '../shared/image-analyzer.service';
@@ -18,12 +19,13 @@ export class ImageAnalysisEffects{
 	@Effect()
 	analyzeImage$: Observable<Action> = this.actions$
 		.ofType(imageAnalysis.ANALYZE_IMAGE_REQUEST)
-		.do(()=>console.log('Inside analyzeImage$ effects chain'))
+		.do(()=>console.log('inside analyzeimage$ effects chain'))
 		.map( (action: imageAnalysis.AnalyzeImageRequestAction) => action.payload)
-		.mergeMap(image => this.imageAnalyzerService.generatePlaylistFromImage(image)
+		.switchMap(image => this.imageAnalyzerService.generatePlaylistFromImage(image)
 			.map(res => new imageAnalysis.AnalyzeImageSuccessAction(res))
-		)
-		.do(()=>console.log('At end of analyzeImage$ effects chain'));
+			.catch(err => of(new imageAnalysis.AnalyzeImageFailAction(err)))
+		);
+		// .do(()=>console.log('At end of analyzeImage$ effects chain'));
 
 	constructor(private actions$: Actions, private imageAnalyzerService: ImageAnalyzerService ){}
 }

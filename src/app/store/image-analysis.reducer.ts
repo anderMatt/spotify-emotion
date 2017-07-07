@@ -37,8 +37,10 @@ export function reducer(state: State = initialState, action: imageAnalysis.Actio
 				status: ImageAnalysisStatus.loading
 			});
 		case imageAnalysis.ANALYZE_IMAGE_SUCCESS:
-			return Object.assign({}, state, action.payload, {
-				status: ImageAnalysisStatus.success
+			console.log('Inside ANALYZE_IMAGE_SUCCESS reducer case');
+			return Object.assign({}, state, {
+				status: ImageAnalysisStatus.success,
+				playlist: action.payload
 			});
 		case imageAnalysis.ANALYZE_IMAGE_FAIL:
 			return Object.assign({}, state, {
@@ -53,3 +55,4 @@ export function reducer(state: State = initialState, action: imageAnalysis.Actio
 /******************** SELECTORS ********************/
 
 export const getImage = (state: State) => state.image;
+export const getPlaylist = (state: State) => state.playlist;
