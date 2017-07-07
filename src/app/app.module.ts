@@ -3,6 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import {StoreModule} from '@ngrx/store';
+import {AppState} from './store/app.state';
+import {reducer} from './store/image-analysis.reducer';
+
 import { AppComponent } from './app.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { PlaylistDetailComponent } from './playlist/playlist-detail/playlist-detail.component';
@@ -10,6 +14,7 @@ import { PlaylistDetailComponent } from './playlist/playlist-detail/playlist-det
 import {ImageAnalyzerService} from './shared/image-analyzer.service';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { ImagePreviewComponent } from './image-upload/image-preview/image-preview.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -17,12 +22,14 @@ import { ImagePreviewComponent } from './image-upload/image-preview/image-previe
     PlaylistComponent,
     PlaylistDetailComponent,
     ImageUploadComponent,
-    ImagePreviewComponent
+    ImagePreviewComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    StoreModule.provideStore({imageAnalysis: reducer})
   ],
   providers: [ImageAnalyzerService],
   bootstrap: [AppComponent]
