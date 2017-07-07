@@ -87,6 +87,7 @@ EmotionApi.prototype._parseEmotionFromResponse = function(apiResponse){
 };
 
 EmotionApi.prototype.generateEmotionProfile = function(imageBase64){
+	console.log('Inside #generateEmotionProfile()');
 	var raw = imageBase64.split(',')[1];
 	var imageBlob = new Buffer(raw, 'base64');
 	return this._makeApiCall(imageBlob)

@@ -1,12 +1,13 @@
 const express = require('express'),
 	app = express(),
 	bodyParser = require('body-parser'),
-	EmotionApi = require('./emotion-api');
+	EmotionApi = require('./emotion-api'),
+	SpotifyApi = require('./spotify-api');
 
 const request = require('request');
 
 const port = process.env.PORT || 3000;
-const APIkey = require('./emotion-api-key.js'); //TODO: env var.
+const EMOTION_API_KEY = require('./emotion-api-key.js'); //TODO: env var.
 //const APIkey = process.env.EMOTION_API_KEY
 //emotion Api = new EmotionApi(APIKey);
 
@@ -14,7 +15,8 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended: false}));
 
 //APIs
-var emotionApi = new EmotionApi(APIkey);
+var emotionApi = new EmotionApi(EMOTION_API_KEY);
+var spotifyApi = new SpotifyApi();  //gets access token in constructor
 
 //Generate playlist from image
 app.post('/api/playlist', function(req, res){   //?image=BASE64STRING
@@ -22,13 +24,14 @@ app.post('/api/playlist', function(req, res){   //?image=BASE64STRING
 
 	emotionApi.generateEmotionProfile(imageBase64)
 		.then(emotion => {
-			console.log('App notified of most prevalent emotion!!!!!!: ' + emotion)
-			return res.status(200);
-		}, err => {
-			console.log('App got this rejected: ' + JSON.stringify(err));
-			return res.status(500);
-		});
-
+			return spotifyApi.generatePlaylistFromEmotion(emotion);
+		})
+		.then(playlist => {
+			// console.log('App got this playlist: ' + JSON.stringify(playlist));
+			// return res.status(200);
+			console.log('App will return playlist of length: ' + playlist.length);
+			return res.status(200).json(playlist);
+		}); //err handler
 });
 
 
