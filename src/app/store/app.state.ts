@@ -8,6 +8,5 @@ export interface AppState{
 
 /********** SELECTORS **********/
 export const getImageAnalysisState = (state: AppState) => state.imageAnalysis;
-
 export const getImage = createSelector(getImageAnalysisState, imageAnalysis.getImage);
 //Selectors for status, playlist, etc.
