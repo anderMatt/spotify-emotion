@@ -3,8 +3,8 @@ import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core
 @Component({
   selector: 'app-image-preview',
   template: `
-  <div *ngIf="image" class="preview">
-  	<img class="img-responsive" [src]="image">
+  <div class="preview">
+  	<img *ngIf="image" class="img-responsive" [src]="image">
   </div>
   `,
   styles: [`
@@ -20,7 +20,7 @@ import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core
 })
 export class ImagePreviewComponent implements OnInit {
   @Input() image: string;
-  
+
   constructor() { }
 
   ngOnInit() {

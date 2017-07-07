@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Store} from '@ngrx/store';
 
 import * as fromRoot from '../store/app.state';
-import {UploadImageAction} from '../store/image-analysis.reducer';
+import {UploadImageAction} from '../store/image-analysis.actions';
 
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -16,9 +16,9 @@ import {ImageAnalyzerService} from '../shared/image-analyzer.service';
   	<button class="btn btn-primary"><label for="image-input">{{image? 'Use Different Image' : 'Upload Image'}} <i class="fa fa-upload"></i></label>
   	<input (change)="onFileSelect($event)" type="file" id="image-input" accept="image/jpg, image/png" />
   	</button>
-  	<button *ngIf="image" class="btn btn-success" (click)="analyzeImage()">Generate Playlist <i class="fa fa-music"></i></button>
+  	<button *ngIf="image$ | async" class="btn btn-success" (click)="analyzeImage()">Generate Playlist <i class="fa fa-music"></i></button>
   </div>
-  <app-image-preview></app-image-preview>
+  <app-image-preview [image]="image$ | async"></app-image-preview>
 
   <!-- IMAGE PREVIEW DETAIL [src]= -->
   `,
@@ -47,7 +47,8 @@ export class ImageUploadComponent implements OnInit {
 
   constructor(private imageAnalyzerService: ImageAnalyzerService, private store: Store<fromRoot.AppState>) {
   	this.fileReader = new FileReader();
-  	this
+  	this._initFileReader();
+
   	this.image$ = this.store.select(fromRoot.getImage);
   }
 
@@ -60,7 +61,16 @@ export class ImageUploadComponent implements OnInit {
   	}
   }
   onFileSelect(event){
-
+    console.log('Inside onFileSelect()');
+  	let file = event.target.files[0];
+  	if(file){
+  		this.fileReader.readAsDataURL(file);
+  	}
   }
 
+
+  analyzeImage(): void{
+  	console.log('Inside UplodComponent.analyzeImage()');
+  	// this.imageAnalyzerService.generatePlaylistFromImage(this.image);
+  }
 }
