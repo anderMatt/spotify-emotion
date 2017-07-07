@@ -3,6 +3,13 @@ import {SpotifyTrack} from '../models/spotify-track.model';
 import {ImageAnalysis} from '../models/image-analysis.model';
 
 
+export enum ImageAnalysisStatus{
+	success,
+	fail,
+	loading,
+	neutral
+};
+
 export interface State{
 	image: string,
 	topEmotion: string,
@@ -19,12 +26,6 @@ export const initialState: State = {
 	playlist: null
 };
 
-export enum ImageAnalysisStatus{
-	success,
-	fail,
-	loading,
-	neutral
-};
 
 /******************** ACTIONS ********************/
 
@@ -52,7 +53,7 @@ export class AnalyzeImageSuccessAction implements Action{
 
 export class AnalyzeImageFailAction implements Action{
 	readonly type = ANALYZE_IMAGE_FAIL;
-	constructor(){}  //reason as payload?
+	constructor(public payload: string){}  //reason as payload?
 };
 
 export type Actions = UploadImageAction |
