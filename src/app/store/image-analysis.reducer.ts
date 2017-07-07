@@ -31,12 +31,9 @@ export const initialState: State = {
 
 export function reducer(state: State = initialState, action: imageAnalysis.Actions): State {
 	switch(action.type){
-		case imageAnalysis.UPLOAD_IMAGE:
-			return Object.assign({}, state, {
-				image: action.payload
-			});
 		case imageAnalysis.ANALYZE_IMAGE_REQUEST:
 			return Object.assign({}, state, {
+				image: action.payload,
 				status: ImageAnalysisStatus.loading
 			});
 		case imageAnalysis.ANALYZE_IMAGE_SUCCESS:
