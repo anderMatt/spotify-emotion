@@ -7,6 +7,9 @@ import {StoreModule} from '@ngrx/store';
 import {AppState} from './store/app.state';
 import {reducer} from './store/image-analysis.reducer';
 
+import {EffectsModule} from '@ngrx/effects';
+import {ImageAnalysisEffects} from './store/image-analysis.effects';
+
 import { AppComponent } from './app.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { PlaylistDetailComponent } from './playlist/playlist-detail/playlist-detail.component';
@@ -29,7 +32,8 @@ import { AboutComponent } from './about/about.component';
     BrowserModule,
     FormsModule,
     HttpModule,
-    StoreModule.provideStore({imageAnalysis: reducer})
+    StoreModule.provideStore({imageAnalysis: reducer}),
+    EffectsModule.run(ImageAnalysisEffects)
   ],
   providers: [ImageAnalyzerService],
   bootstrap: [AppComponent]
