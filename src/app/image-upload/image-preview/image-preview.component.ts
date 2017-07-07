@@ -1,12 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-image-preview',
-  templateUrl: './image-preview.component.html',
-  styleUrls: ['./image-preview.component.css']
+  template: `
+  <div *ngIf="image" class="preview">
+  	<img class="img-responsive" [src]="image">
+  </div>
+  `,
+  styles: [`
+  	.preview{
+  		margin-top: 15px;
+  		padding: 10px;
+  		min-height: 200px;
+  		max-width: 500px;
+  		background-color: #d9d9d9;
+  	}
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImagePreviewComponent implements OnInit {
-
+  @Input() image: string;
+  
   constructor() { }
 
   ngOnInit() {

@@ -87,3 +87,8 @@ export function reducer(state: State, action: Actions): State{
 			return state;
 	}
 }
+
+
+/******************** SELECTORS ********************/
+
+export const getImage = (state: State) => state.image;

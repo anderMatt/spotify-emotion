@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {Store} from '@ngrx/store';
-import {AppState} from '../store/app.state';
+
+import * as fromRoot from '../store/app.state';
+import {UploadImageAction} from '../store/image-analysis.reducer';
+
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 import {ImageAnalyzerService} from '../shared/image-analyzer.service';
 
@@ -13,6 +18,7 @@ import {ImageAnalyzerService} from '../shared/image-analyzer.service';
   	</button>
   	<button *ngIf="image" class="btn btn-success" (click)="analyzeImage()">Generate Playlist <i class="fa fa-music"></i></button>
   </div>
+  <app-image-preview></app-image-preview>
 
   <!-- IMAGE PREVIEW DETAIL [src]= -->
   `,
@@ -36,12 +42,25 @@ import {ImageAnalyzerService} from '../shared/image-analyzer.service';
   `]
 })
 export class ImageUploadComponent implements OnInit {
+  image$: Observable<string>;
+  fileReader: FileReader;
 
-  constructor(private imageAnalyzerService: ImageAnalyzerService, private store: Store<AppState>) {
-  	//imageUrl = store.select('imageAnalysis');
+  constructor(private imageAnalyzerService: ImageAnalyzerService, private store: Store<fromRoot.AppState>) {
+  	this.fileReader = new FileReader();
+  	this
+  	this.image$ = this.store.select(fromRoot.getImage);
   }
 
   ngOnInit() {
+  }
+
+  _initFileReader(){
+  	this.fileReader.onloadend = () => {
+  		this.store.dispatch(new UploadImageAction(this.fileReader.result));
+  	}
+  }
+  onFileSelect(event){
+
   }
 
 }
