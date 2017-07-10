@@ -88,7 +88,7 @@ SpotifyApi.prototype._serializeTracks = function(spotifyTracks){
 SpotifyApi.prototype.generatePlaylistFromEmotion = function(emotion){
 	console.log('Inside Api#generatePlaylistFromEmotion. Passed this emotion: ' + emotion);
 	var genres = config.genresByEmotion[emotion];
-	var url = `${config.endpoints.spotify.recommendations}?seed_genres=${genres.join(',')}`;
+	var url = `${config.endpoints.spotify.recommendations}?seed_genres=${genres.join(',')}&limit=${config.trackLimit}`;
 
 	return this._makeApiCall(url);
 };

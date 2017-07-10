@@ -12,7 +12,9 @@ const config = {
 		'happiness': ['techno', 'pop', 'dance', 'hardcore'],
 		'sadness': ['sad', 'rainy-day'],
 		'neutral': ['piano', 'classical', 'jazz', 'study']
-	}
+	},
+
+	trackLimit: 6
 };
 
 module.exports = config;
