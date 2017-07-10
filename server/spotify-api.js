@@ -64,12 +64,7 @@ SpotifyApi.prototype._makeApiCall = function(url){
 			else if(resp.statusCode === 200){
 				var data = JSON.parse(body);
 				//Will this array have len 0 is no tracks are found from the genre seeds?
-				var serializedTracks = data.tracks.reduce((accumulator, track) => {
-					let serializedTrack = helpers.trackToJson(track);
-					accumulator.push(serializedTrack);
-					return accumulator;
-				}, []);
-
+				var serializedTracks = self._serializeTracks(data.tracks);
 				resolve(serializedTracks);
 				//Response reference: https://developer.spotify.com/web-api/get-recommendations/
 			}
@@ -80,6 +75,14 @@ SpotifyApi.prototype._makeApiCall = function(url){
 		});
 	}
 	return new Promise(reqPromise);
+};
+
+SpotifyApi.prototype._serializeTracks = function(spotifyTracks){
+	return spotifyTracks.reduce((accumulator, track) => {
+		let serializedTrack = helpers.trackToJson(track);
+		accumulator.push(serializedTrack);
+		return accumulator;
+	}, []);
 };
 
 SpotifyApi.prototype.generatePlaylistFromEmotion = function(emotion){
