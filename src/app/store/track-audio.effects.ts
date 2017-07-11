@@ -21,13 +21,9 @@ export class TrackAudioEffects{
 		// .do((track: SpotifyTrack) => this.trackAudioService.play(track))
 		.switchMap((track: SpotifyTrack) => this.trackAudioService.play(track)
 			.map((track: SpotifyTrack) => new trackAudio.TrackPreviewStartedAction(track))
+			//TODO: TrackPreviewFailedAction
 		);
-		// .switchMap((track: SpotifyTrack) => this.trackAudioService.play(track)
-		// 	.map((track) => new trackAudio.TrackPreviewStartedAction(track)))
-
-		// .do(track => this.trackAudioService.play(track.previewUrl))
-		// .map(track => new trackAudio.TrackPreviewStartedAction(track))
-		//TODO: .catch() audio fail?
+		//TODO: .catch() audio fail? => new TrackPreviewFailedAction()
 
 	constructor(private actions$: Actions, private trackAudioService: TrackAudioService){}
 }
