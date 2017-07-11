@@ -4,6 +4,7 @@ import {SpotifyTrack} from '../models/spotify-track.model';
 
 import {Observable} from 'rxjs/Observable';
 import * as fromRoot from '../store';
+import * as trackAudio from '../store/track-audio.actions';
 
 @Component({
   selector: 'app-playlist',
@@ -29,6 +30,8 @@ export class PlaylistComponent implements OnInit {
 
   playTrackPreview(track: SpotifyTrack): void{
     console.log('Inside playlist.component.playTrackPreview()');
+    // this.store.dispatch(new trackAudio.PlayTrackPreviewAction(track));
+    this.store.dispatch(new trackAudio.PlayTrackPreviewAction(track));
     //extract previewUrl?
   }
 

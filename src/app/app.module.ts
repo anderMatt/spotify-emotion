@@ -4,11 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import {StoreModule} from '@ngrx/store';
-import {AppState} from './store';
-import {reducer} from './store/image-analysis.reducer';
+// import {AppState} from './store';
+// import {reducer} from './store/image-analysis.reducer';
+// import {reducer} from './store';
+import * as fromRoot from './store';
 
 import {EffectsModule} from '@ngrx/effects';
 import {ImageAnalysisEffects} from './store/image-analysis.effects';
+import {TrackAudioEffects} from './store/track-audio.effects';
 
 import { AppComponent } from './app.component';
 import { PlaylistComponent } from './playlist/playlist.component';
@@ -33,8 +36,9 @@ import { AboutComponent } from './about/about.component';
     BrowserModule,
     FormsModule,
     HttpModule,
-    StoreModule.provideStore({imageAnalysis: reducer}),
-    EffectsModule.run(ImageAnalysisEffects)
+    StoreModule.provideStore(fromRoot.reducer),
+    EffectsModule.run(ImageAnalysisEffects),
+    EffectsModule.run(TrackAudioEffects)
   ],
   providers: [ImageAnalyzerService, TrackAudioService],
   bootstrap: [AppComponent]
