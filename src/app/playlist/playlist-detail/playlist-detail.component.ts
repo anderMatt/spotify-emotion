@@ -9,8 +9,9 @@ import {SpotifyTrack} from '../../models/spotify-track.model';
     	<div class="list-group-item-heading">{{track.name}}</div>
     	<div class="list-group-item-text">{{track.artist}}</div>
     </div>
-    <div *ngIf="track.previewUrl" (click)="playPreview.emit()" class="text-center play">
-      <i class="fa fa-play-circle-o fa-4x"></i>
+    <div *ngIf="track.previewUrl" (click)="onTrackControlClick()" class="text-center play">
+      <i *ngIf="!isPlaying" class="fa fa-play-circle-o fa-4x"></i>
+      <i *ngIf="isPlaying" class="fa fa-pause-circle-o fa-4x"></i>
     </div>
     <div *ngIf="!track.previewUrl" class="no-preview">
       Preview not available.
@@ -49,10 +50,22 @@ import {SpotifyTrack} from '../../models/spotify-track.model';
 export class PlaylistDetailComponent implements OnInit {
 
   @Input() track: SpotifyTrack;
+  @Input() isPlaying: boolean;
+
   @Output() playPreview = new EventEmitter();
+  @Output() stopPreview = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onTrackControlClick(event): void{
+    if(this.isPlaying){
+      this.stopPreview.emit();
+    }
+    else{
+      this.playPreview.emit();
+    }
   }
 }

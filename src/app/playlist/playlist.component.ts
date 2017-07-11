@@ -20,9 +20,15 @@ import * as trackAudio from '../store/track-audio.actions';
 })
 export class PlaylistComponent implements OnInit {
   playlist$: Observable<[SpotifyTrack]>;
+  // activeTrack$: Observable<SpotifyTrack>;
+  activeTrack: SpotifyTrack;
 
   constructor(private store: Store<fromRoot.AppState>) {
   	this.playlist$ = this.store.select(fromRoot.getPlaylist);
+    this.store.select(fromRoot.getActiveTrack)
+      .subscribe((track: SpotifyTrack) => {
+        this.activeTrack = track;
+      });
   }
 
   ngOnInit() {
@@ -33,6 +39,11 @@ export class PlaylistComponent implements OnInit {
     // this.store.dispatch(new trackAudio.PlayTrackPreviewAction(track));
     this.store.dispatch(new trackAudio.PlayTrackPreviewAction(track));
     //extract previewUrl?
+  }
+
+  pauseTrackPreview(): void{
+    console.log('Inside playlist.component.pauseTrackPreview()');
+    //this.store.dispatch(trackAudio.StopTrackPreviewAction());
   }
 
 }

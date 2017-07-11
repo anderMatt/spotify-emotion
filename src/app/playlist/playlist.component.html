@@ -2,7 +2,7 @@
 	<div class="page-header">Your Playlist</div>
 	<ul class="list-group">
 		<li *ngFor="let track of playlist$ | async" class="list-group-item">
-			<app-playlist-detail [track]="track" (playPreview)="playTrackPreview(track)"></app-playlist-detail>
+			<app-playlist-detail [track]="track" [isPlaying]="activeTrack === track" (playPreview)="playTrackPreview(track)"></app-playlist-detail>
 		</li>
 	</ul>
 </div>
