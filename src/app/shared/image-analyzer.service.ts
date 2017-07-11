@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Store} from '@ngrx/store';
-import * as fromRoot from '../store/app.state';
+import * as fromRoot from '../store';
 import 'rxjs/add/operator/map';
 
 import {SpotifyTrack} from '../models/spotify-track.model';
