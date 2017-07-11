@@ -9,8 +9,11 @@ import {SpotifyTrack} from '../../models/spotify-track.model';
     	<div class="list-group-item-heading">{{track.name}}</div>
     	<div class="list-group-item-text">{{track.artist}}</div>
     </div>
-    <div class="text-center play">
+    <div *ngIf="track.previewUrl" class="text-center play">
       <i class="fa fa-play-circle-o fa-4x"></i>
+    </div>
+    <div *ngIf="!track.previewUrl" class="no-preview">
+      Preview not available.
     </div>
     </div>
   `,
@@ -23,8 +26,9 @@ import {SpotifyTrack} from '../../models/spotify-track.model';
       border: 1px solid orange;
     }
     .play{
-      width: 50px;
+      width: 60px;
       border: 1px solid red;
+      padding: 5px;
       box-sizing: border-box;
       height: 75px;
       line-height: 3em;
@@ -35,6 +39,10 @@ import {SpotifyTrack} from '../../models/spotify-track.model';
 
     .play i{
       vertical-align: middle;
+    }
+
+    .no-preview{
+      color: rgba(0,0,0,0.54);
     }
   `]
 })
