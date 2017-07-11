@@ -4,12 +4,14 @@ import {SpotifyTrack} from '../../models/spotify-track.model';
 @Component({
   selector: 'app-playlist-detail',
   template: `
-    <div class="track-info">
+  <div class="row">
+    <div class="track-info col-sm-10">
     	<div class="list-group-item-heading">{{track.name}}</div>
     	<div class="list-group-item-text">{{track.artist}}</div>
     </div>
-    <div class="text-center play pull-right">
-      <i class="fa fa-play-circle-o"></i>
+    <div class="text-center play">
+      <i class="fa fa-play-circle-o fa-4x"></i>
+    </div>
     </div>
   `,
   styles: [`
@@ -19,17 +21,20 @@ import {SpotifyTrack} from '../../models/spotify-track.model';
     }
     .track-info{
       border: 1px solid orange;
-      display: inline-block;
-      margin-right: 55px;
     }
     .play{
       width: 50px;
       border: 1px solid red;
       box-sizing: border-box;
-      font-size: 2em;
-      height: 100%;
+      height: 75px;
+      line-height: 3em;
       border-left: 1px solid grey;
       display: inline-block;
+      cursor: pointer;
+    }
+
+    .play i{
+      vertical-align: middle;
     }
   `]
 })
