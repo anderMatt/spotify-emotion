@@ -41,9 +41,9 @@ export class PlaylistComponent implements OnInit {
     //extract previewUrl?
   }
 
-  pauseTrackPreview(): void{
-    console.log('Inside playlist.component.pauseTrackPreview()');
-    //this.store.dispatch(trackAudio.StopTrackPreviewAction());
+  stopTrackPreview(): void{
+    console.log('Inside playlist.component.stopTrackPreview()');
+    this.store.dispatch(new trackAudio.StopTrackPreviewAction(null));
   }
 
 }

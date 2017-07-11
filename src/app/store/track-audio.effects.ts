@@ -25,5 +25,12 @@ export class TrackAudioEffects{
 		);
 		//TODO: .catch() audio fail? => new TrackPreviewFailedAction()
 
+
+	@Effect()
+	stopTrackAudio$: Observable<Action> = this.actions$
+		.ofType(trackAudio.STOP_TRACK_PREVIEW)
+		.do(() => this.trackAudioService.stop())
+		.map(() => new trackAudio.TrackPreviewEndedAction(null));
+
 	constructor(private actions$: Actions, private trackAudioService: TrackAudioService){}
 }

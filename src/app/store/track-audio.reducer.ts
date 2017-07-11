@@ -30,6 +30,7 @@ export function reducer(state: State = initialState, action: track.Actions): Sta
 				activeTrack: action.payload
 			});
 		case track.TRACK_PREVIEW_ENDED:
+		console.log('Inside TrackPreviewEnded reducer case');
 			return Object.assign({}, state, {
 				status: TrackAudioStatus.notPlaying,
 				activeTrack: null
