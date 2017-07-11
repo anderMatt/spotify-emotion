@@ -4,7 +4,7 @@ import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core
   selector: 'app-image-preview',
   template: `
   <div class="preview">
-  	<img *ngIf="image" class="img-responsive" [src]="image">
+  	<!-- <img *ngIf="image" class="img-responsive" [src]="image"> -->
   </div>
   `,
   styles: [`

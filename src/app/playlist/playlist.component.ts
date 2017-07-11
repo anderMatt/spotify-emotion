@@ -3,7 +3,7 @@ import {Store} from '@ngrx/store';
 import {SpotifyTrack} from '../models/spotify-track.model';
 
 import {Observable} from 'rxjs/Observable';
-import * as fromRoot from '../store/app.state';
+import * as fromRoot from '../store';
 
 @Component({
   selector: 'app-playlist',

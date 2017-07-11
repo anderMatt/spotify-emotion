@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Store} from '@ngrx/store';
 
-import * as fromRoot from '../store/app.state';
+import * as fromRoot from '../store';
 import {AnalyzeImageRequestAction} from '../store/image-analysis.actions';
 
 import {Observable} from 'rxjs/Observable';

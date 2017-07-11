@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import {StoreModule} from '@ngrx/store';
-import {AppState} from './store/app.state';
+import {AppState} from './store';
 import {reducer} from './store/image-analysis.reducer';
 
 import {EffectsModule} from '@ngrx/effects';
@@ -15,6 +15,7 @@ import { PlaylistComponent } from './playlist/playlist.component';
 import { PlaylistDetailComponent } from './playlist/playlist-detail/playlist-detail.component';
 
 import {ImageAnalyzerService} from './shared/image-analyzer.service';
+import {TrackAudioService} from './shared/track-audio.service';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { ImagePreviewComponent } from './image-upload/image-preview/image-preview.component';
 import { AboutComponent } from './about/about.component';
@@ -35,7 +36,7 @@ import { AboutComponent } from './about/about.component';
     StoreModule.provideStore({imageAnalysis: reducer}),
     EffectsModule.run(ImageAnalysisEffects)
   ],
-  providers: [ImageAnalyzerService],
+  providers: [ImageAnalyzerService, TrackAudioService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
