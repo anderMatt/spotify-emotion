@@ -27,4 +27,9 @@ export class PlaylistComponent implements OnInit {
   ngOnInit() {
   }
 
+  playTrackPreview(track: SpotifyTrack): void{
+    console.log('Inside playlist.component.playTrackPreview()');
+    //extract previewUrl?
+  }
+
 }

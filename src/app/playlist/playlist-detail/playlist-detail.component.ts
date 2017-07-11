@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {SpotifyTrack} from '../../models/spotify-track.model';
 
 @Component({
@@ -9,7 +9,7 @@ import {SpotifyTrack} from '../../models/spotify-track.model';
     	<div class="list-group-item-heading">{{track.name}}</div>
     	<div class="list-group-item-text">{{track.artist}}</div>
     </div>
-    <div *ngIf="track.previewUrl" class="text-center play">
+    <div *ngIf="track.previewUrl" (click)="playPreview.emit()" class="text-center play">
       <i class="fa fa-play-circle-o fa-4x"></i>
     </div>
     <div *ngIf="!track.previewUrl" class="no-preview">
@@ -49,10 +49,10 @@ import {SpotifyTrack} from '../../models/spotify-track.model';
 export class PlaylistDetailComponent implements OnInit {
 
   @Input() track: SpotifyTrack;
+  @Output() playPreview = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
   }
-
 }
