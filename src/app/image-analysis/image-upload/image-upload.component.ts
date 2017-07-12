@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {Store} from '@ngrx/store';
 
-import * as fromRoot from '../store';
-import {AnalyzeImageRequestAction} from '../store/image-analysis.actions';
+import * as fromRoot from '../../store';
+import {AnalyzeImageRequestAction} from '../../store/image-analysis.actions';
 
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import {ImageAnalyzerService} from '../shared/image-analyzer.service';
+import {ImageAnalyzerService} from '../../shared/image-analyzer.service';
 
 @Component({
   selector: 'app-image-upload',

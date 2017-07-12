@@ -19,9 +19,10 @@ import { PlaylistDetailComponent } from './playlist/playlist-detail/playlist-det
 
 import {ImageAnalyzerService} from './shared/image-analyzer.service';
 import {TrackAudioService} from './shared/track-audio.service';
-import { ImageUploadComponent } from './image-upload/image-upload.component';
-import { ImagePreviewComponent } from './image-upload/image-preview/image-preview.component';
+import { ImageUploadComponent } from './image-analysis/image-upload/image-upload.component';
+import { ImagePreviewComponent } from './image-analysis/image-upload/image-preview/image-preview.component';
 import { AboutComponent } from './about/about.component';
+import { ImageAnalysisComponent } from './image-analysis/image-analysis.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { AboutComponent } from './about/about.component';
     PlaylistDetailComponent,
     ImageUploadComponent,
     ImagePreviewComponent,
-    AboutComponent
+    AboutComponent,
+    ImageAnalysisComponent
   ],
   imports: [
     BrowserModule,
