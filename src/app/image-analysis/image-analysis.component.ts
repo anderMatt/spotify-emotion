@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   	<app-image-upload></app-image-upload>
   </div>
   <div class="row">
-  	<p>Analysis Top Emotion</p>
+  	<app-image-analysis-data></app-image-analysis-data>
   </div>
   `,
   styleUrls: ['./image-analysis.component.css']

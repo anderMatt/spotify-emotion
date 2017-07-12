@@ -19,6 +19,6 @@ export class ImageAnalyzerService {
 
 		//this.http.post
 		return this.http.post(this.url, {image: imageStr})
-			.map(res => res.json());
+			.map(res => res.json());  //type is ImageAnalysisResponse
 	}
 }

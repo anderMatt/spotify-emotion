@@ -1,6 +1,6 @@
 import {Action} from '@ngrx/store';
 import {SpotifyTrack} from '../models/spotify-track.model';
-import {ImageAnalysis} from '../models/image-analysis.model';
+import {ImageAnalysisResponse} from '../models/image-analysis.model';
 
 export const ANALYZE_IMAGE_REQUEST = 'ANALYZE_IMAGE_REQUEST';
 export const ANALYZE_IMAGE_SUCCESS = 'ANALYZE_IMAGE_SUCCESS';
@@ -13,7 +13,7 @@ export class AnalyzeImageRequestAction implements Action{
 
 export class AnalyzeImageSuccessAction implements Action{
 	readonly type = ANALYZE_IMAGE_SUCCESS;
-	constructor(public payload: ImageAnalysis){}  //API response as payload.
+	constructor(public payload: ImageAnalysisResponse){}  //API response as payload.
 };
 
 export class AnalyzeImageFailAction implements Action{

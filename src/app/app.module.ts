@@ -23,6 +23,7 @@ import { ImageUploadComponent } from './image-analysis/image-upload/image-upload
 import { ImagePreviewComponent } from './image-analysis/image-upload/image-preview/image-preview.component';
 import { AboutComponent } from './about/about.component';
 import { ImageAnalysisComponent } from './image-analysis/image-analysis.component';
+import { ImageAnalysisDataComponent } from './image-analysis/image-analysis-data.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ImageAnalysisComponent } from './image-analysis/image-analysis.componen
     ImageUploadComponent,
     ImagePreviewComponent,
     AboutComponent,
-    ImageAnalysisComponent
+    ImageAnalysisComponent,
+    ImageAnalysisDataComponent
   ],
   imports: [
     BrowserModule,

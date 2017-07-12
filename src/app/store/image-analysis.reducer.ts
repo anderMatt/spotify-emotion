@@ -38,9 +38,8 @@ export function reducer(state: State = initialState, action: imageAnalysis.Actio
 			});
 		case imageAnalysis.ANALYZE_IMAGE_SUCCESS:
 			console.log('Inside ANALYZE_IMAGE_SUCCESS reducer case');
-			return Object.assign({}, state, {
+			return Object.assign({}, state, action.payload, {
 				status: ImageAnalysisStatus.success,
-				playlist: action.payload
 			});
 		case imageAnalysis.ANALYZE_IMAGE_FAIL:
 			return Object.assign({}, state, {
