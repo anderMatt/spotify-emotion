@@ -19,6 +19,8 @@ import * as trackAudio from '../store/track-audio.actions';
   	}
     .playlist{
       position: relative;
+      padding-left: 10px;
+      box-sizing: border-box;
     }
     .loading{
       position: absolute;
