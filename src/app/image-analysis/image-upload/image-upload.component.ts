@@ -55,12 +55,10 @@ export class ImageUploadComponent implements OnInit {
 
   _initFileReader(){
   	this.fileReader.onloadend = () => {
-  		// this.store.dispatch(new UploadImageAction(this.fileReader.result));
       this.image = this.fileReader.result;
   	}
   }
   onFileSelect(event){
-    console.log('Inside onFileSelect()');
   	let file = event.target.files[0];
   	if(file){
   		this.fileReader.readAsDataURL(file);
@@ -69,7 +67,6 @@ export class ImageUploadComponent implements OnInit {
 
 
   analyzeImage(): void{
-  	console.log('Inside UplodComponent.analyzeImage()');
     this.store.dispatch(new AnalyzeImageRequestAction(this.image))
   }
 }

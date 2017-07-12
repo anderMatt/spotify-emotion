@@ -37,7 +37,6 @@ export function reducer(state: State = initialState, action: imageAnalysis.Actio
 				status: ImageAnalysisStatus.loading
 			});
 		case imageAnalysis.ANALYZE_IMAGE_SUCCESS:
-			console.log('Inside ANALYZE_IMAGE_SUCCESS reducer case');
 			return Object.assign({}, state, action.payload, {
 				status: ImageAnalysisStatus.success,
 			});

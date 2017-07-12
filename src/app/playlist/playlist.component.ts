@@ -47,14 +47,10 @@ export class PlaylistComponent implements OnInit {
   }
 
   playTrackPreview(track: SpotifyTrack): void{
-    console.log('Inside playlist.component.playTrackPreview()');
-    // this.store.dispatch(new trackAudio.PlayTrackPreviewAction(track));
     this.store.dispatch(new trackAudio.PlayTrackPreviewAction(track));
-    //extract previewUrl?
   }
 
   stopTrackPreview(): void{
-    console.log('Inside playlist.component.stopTrackPreview()');
     this.store.dispatch(new trackAudio.StopTrackPreviewAction(null));
   }
 

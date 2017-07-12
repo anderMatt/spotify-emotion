@@ -21,7 +21,6 @@ export class ImageAnalysisDataComponent implements OnInit {
   	//
   this.store.select(fromRoot.getImageAnalysisData)
   		.subscribe(data => {
-  			console.log('Inside IADA store subscription');
   			this.imageAnalysisData = data
   		});
   }

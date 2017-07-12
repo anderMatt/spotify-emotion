@@ -15,9 +15,6 @@ export class ImageAnalyzerService {
 	}
 
 	generatePlaylistFromImage(imageStr: string){  //Base64 encoded image string to get PL from.
-		console.log('Inside service.generatePlaylistFromImage()');
-
-		//this.http.post
 		return this.http.post(this.url, {image: imageStr})
 			.map(res => res.json());  //type is ImageAnalysisResponse
 	}
