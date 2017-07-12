@@ -23,13 +23,14 @@ app.post('/api/playlist', function(req, res){   //?image=BASE64STRING
 	var imageBase64 = req.body.image;
 
 	emotionApi.generateEmotionProfile(imageBase64)
-		.then(emotion => spotifyApi.generatePlaylistFromEmotion(emotion))
-		.then(playlist => {
-			// console.log('App got this playlist: ' + JSON.stringify(playlist));
-			// return res.status(200);
-			console.log('App will return playlist of length to client: ' + playlist.length);
-			return res.status(200).json(playlist);
-		}); //err handler
+		.then(emotionProfile => spotifyApi.generatePlaylistFromEmotion(emotionProfile.topEmotion)
+			.then(playlist => {
+				return res.status(200).json({
+					topEmotion: emotionProfile.topEmotion,
+					confidenceLevel: emotionProfile.confidenceLevel,
+					playlist: playlist
+				});
+			}));
 });
 
 
