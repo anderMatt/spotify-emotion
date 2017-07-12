@@ -20,15 +20,11 @@ import * as trackAudio from '../store/track-audio.actions';
 })
 export class PlaylistComponent implements OnInit {
   playlist$: Observable<[SpotifyTrack]>;
-  // activeTrack$: Observable<SpotifyTrack>;
-  activeTrack: SpotifyTrack;
+  activeTrack$: Observable<SpotifyTrack>;
 
   constructor(private store: Store<fromRoot.AppState>) {
   	this.playlist$ = this.store.select(fromRoot.getPlaylist);
-    this.store.select(fromRoot.getActiveTrack)
-      .subscribe((track: SpotifyTrack) => {
-        this.activeTrack = track;
-      });
+    this.activeTrack$ = this.store.select(fromRoot.getActiveTrack);
   }
 
   ngOnInit() {
