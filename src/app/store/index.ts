@@ -24,6 +24,7 @@ export function reducer(state: any, action: any){
 export const getImageAnalysisState = (state: AppState) => state.imageAnalysis;
 export const getImage = createSelector(getImageAnalysisState, imageAnalysis.getImage);
 export const getPlaylist = createSelector(getImageAnalysisState, imageAnalysis.getPlaylist);
+export const getAnalysisLoadingStatus = createSelector(getImageAnalysisState, (state: imageAnalysis.State) => state.status);
 
 export const getImageAnalysisData = createSelector(getImageAnalysisState, (state: imageAnalysis.State) => {
 	return {
