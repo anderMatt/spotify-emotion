@@ -9,9 +9,9 @@ import {SpotifyTrack} from '../../models/spotify-track.model';
     	<div class="list-group-item-heading">{{track.name}}</div>
     	<div class="list-group-item-text">{{track.artist}}</div>
     </div>
-    <div *ngIf="track.previewUrl" (click)="onTrackControlClick()" class="text-center play">
-      <i *ngIf="!isPlaying" class="fa fa-play-circle-o fa-4x"></i>
-      <i *ngIf="isPlaying" class="fa fa-pause-circle-o fa-4x"></i>
+    <div *ngIf="track.previewUrl" (click)="onTrackControlClick()" class="text-center track-control">
+      <i *ngIf="!isPlaying" class="fa fa-play-circle-o fa-4x play"></i>
+      <i *ngIf="isPlaying" class="fa fa-pause-circle-o fa-4x pause"></i>
     </div>
     <div *ngIf="!track.previewUrl" class="no-preview">
       Preview not available.
@@ -26,20 +26,30 @@ import {SpotifyTrack} from '../../models/spotify-track.model';
     .track-info{
       border: 1px solid orange;
     }
-    .play{
+    .track-control{
       width: 60px;
-      border: 1px solid red;
       padding: 5px;
       box-sizing: border-box;
       height: 75px;
       line-height: 3em;
-      border-left: 1px solid grey;
       display: inline-block;
       cursor: pointer;
     }
 
-    .play i{
+    .track-control i{
       vertical-align: middle;
+    }
+
+    .track-control i:hover{
+      transform: scale(1.2, 1.2);
+    }
+
+    .play:hover{
+      color: green;
+    }
+
+    .pause{
+      color: red;
     }
 
     .no-preview{
