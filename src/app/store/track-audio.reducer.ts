@@ -24,13 +24,11 @@ export function reducer(state: State = initialState, action: track.Actions): Sta
 		//track.PLAY_TRACK_PREVIEW not needed, since intercepted by an effect, which dispatches TRACK_PREVIEW_STATED
 
 		case track.TRACK_PREVIEW_STARTED:
-		console.log('Inside TrackPreviewStarted reducer case!');
 			return Object.assign({}, state, {
 				status: TrackAudioStatus.playing,
 				activeTrack: action.payload
 			});
 		case track.TRACK_PREVIEW_ENDED:
-		console.log('Inside TrackPreviewEnded reducer case');
 			return Object.assign({}, state, {
 				status: TrackAudioStatus.notPlaying,
 				activeTrack: null

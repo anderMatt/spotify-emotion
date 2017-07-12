@@ -13,21 +13,16 @@ export class TrackAudioService {
   constructor(private store: Store<fromRoot.AppState>) { 
   	this.audio = new Audio();
   	this.audio.onended = this._onAudioEnd.bind(this);
-  	//TODO: this context ok?
   }
 
   play(track: SpotifyTrack){
-  	console.log('Inside TrackAudioService.play()');
   	this.audio.src = track.previewUrl;
   	return Observable.create(observer => {
-  		console.log('About to call this.audio.play()');
   		this.audio.onplay = () => observer.next(track);
   		this.audio.onerror = () => observer.error(track);
 
   		this.audio.play();
   	});
-  	//this.audio.play(track.previewUrl);
-  	//return Observable.fromEvent(this.audio.started?)
   }
 
   stop(): void{
@@ -36,8 +31,6 @@ export class TrackAudioService {
   }
 
   _onAudioEnd(): void{
-  	console.log('Inside _onAudioEnd()');
   	this.store.dispatch(new trackAudio.TrackPreviewEndedAction(null));
-  	//this.store.dispatch(PREVIEW_END);
   }
 }

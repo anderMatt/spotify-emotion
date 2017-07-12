@@ -16,9 +16,7 @@ export class TrackAudioEffects{
 	@Effect()
 	playTrackAudio$: Observable<Action> = this.actions$
 		.ofType(trackAudio.PLAY_TRACK_PREVIEW)
-		.do(() => console.log('inside playTrackAudio$ effects chain'))
 		.map((action: trackAudio.Actions) => action.payload)
-		// .do((track: SpotifyTrack) => this.trackAudioService.play(track))
 		.switchMap((track: SpotifyTrack) => this.trackAudioService.play(track)
 			.map((track: SpotifyTrack) => new trackAudio.TrackPreviewStartedAction(track))
 			//TODO: TrackPreviewFailedAction
