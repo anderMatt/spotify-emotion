@@ -83,7 +83,11 @@ EmotionApi.prototype._parseEmotionFromResponse = function(apiResponse){
 		return relevantEmotionScores[a] > relevantEmotionScores[b] ? a : b;
 	});
 
-	return Promise.resolve(mostPrevalentEmotion);
+	// return Promise.resolve(mostPrevalentEmotion);
+	return Promise.resolve({
+		topEmotion: mostPrevalentEmotion,
+		confidenceLevel: allEmotionScores[mostPrevalentEmotion]
+	});
 };
 
 EmotionApi.prototype.generateEmotionProfile = function(imageBase64){
