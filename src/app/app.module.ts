@@ -24,6 +24,7 @@ import { ImagePreviewComponent } from './image-analysis/image-upload/image-previ
 import { AboutComponent } from './about/about.component';
 import { ImageAnalysisComponent } from './image-analysis/image-analysis.component';
 import { ImageAnalysisDataComponent } from './image-analysis/image-analysis-data.component';
+import { CapitalizePipe } from './pipes/capitalize.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ImageAnalysisDataComponent } from './image-analysis/image-analysis-data
     ImagePreviewComponent,
     AboutComponent,
     ImageAnalysisComponent,
-    ImageAnalysisDataComponent
+    ImageAnalysisDataComponent,
+    CapitalizePipe
   ],
   imports: [
     BrowserModule,
