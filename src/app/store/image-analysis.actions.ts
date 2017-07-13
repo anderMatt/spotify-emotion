@@ -19,7 +19,7 @@ export class AnalyzeImageSuccessAction implements Action{
 
 export class AnalyzeImageFailAction implements Action{
 	readonly type = ANALYZE_IMAGE_FAIL;
-	constructor(public payload: string){}  //reason as payload?
+	constructor(public payload: string){}  //message indicating failure reason.
 };
 
 export type Actions = AnalyzeImageRequestAction | 

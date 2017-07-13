@@ -24,7 +24,9 @@ export class ImageAnalysisEffects{
 		.map((action: imageAnalysis.AnalyzeImageRequestAction) => action.payload)  //img url
 		.switchMap(image => this.imageAnalyzerService.generatePlaylistFromImage(image)
 			.map((res: ImageAnalysisResponse) => new imageAnalysis.AnalyzeImageSuccessAction(res))
-			.catch(err => of(new imageAnalysis.AnalyzeImageFailAction(err)))
+			.catch(msg => {
+				return of(new imageAnalysis.AnalyzeImageFailAction(msg))
+			})
 			);
 	constructor(private actions$: Actions, private imageAnalyzerService: ImageAnalyzerService ){}
 }

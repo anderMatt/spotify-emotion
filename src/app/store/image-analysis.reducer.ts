@@ -22,7 +22,8 @@ export interface State{
 	image: string,
 	emotionProfile: EmotionProfile,
 	status: ImageAnalysisStatus,
-	playlist: [SpotifyTrack]
+	playlist: [SpotifyTrack],
+	message: string
 };
 
 // export const initialState: State = {
@@ -34,9 +35,13 @@ export interface State{
 // };
 export const initialState: State = {
 	image: null,
-	emotionProfile: null,
+	emotionProfile: {
+		topEmotion: null,
+		confidenceLevel: null
+	},
 	status: ImageAnalysisStatus.neutral,
-	playlist: null
+	playlist: null,
+	message: ''
 };
 
 
@@ -56,8 +61,10 @@ export function reducer(state: State = initialState, action: imageAnalysis.Actio
 			});
 
 		case imageAnalysis.ANALYZE_IMAGE_FAIL:
+		console.log('INSIDE ANALYZEIMAGEFAIL case. Msg payload: ' + action.payload);
 			return Object.assign({}, state, {
-				status: ImageAnalysisStatus.fail
+				status: ImageAnalysisStatus.fail,
+				message: action.payload
 			});
 		default:
 			return state;
