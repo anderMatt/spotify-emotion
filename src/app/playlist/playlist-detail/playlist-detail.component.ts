@@ -23,9 +23,6 @@ import {SpotifyTrack} from '../../models/spotify-track.model';
       font-weight: bold;
       font-size: 1.6em;
     }
-    .track-info{
-      border: 1px solid orange;
-    }
     .track-control{
       width: 60px;
       padding: 5px;

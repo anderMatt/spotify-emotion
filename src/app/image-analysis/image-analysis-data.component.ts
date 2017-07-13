@@ -8,8 +8,8 @@ import * as fromRoot from '../store';
   selector: 'app-image-analysis-data',
   template: `
   <div *ngIf="emotionProfile.topEmotion" class="data">
-  <p>Top Emotion: {{emotionProfile.topEmotion | capitalize}}</p>
-  <p>Confidence Level: {{emotionProfile.confidenceLevel | percent:'1.0-2'}}</p>
+  <p>Detected Emotion: <span>{{emotionProfile.topEmotion | capitalize}}</span></p>
+  <p>Confidence Level: <span>{{emotionProfile.confidenceLevel | percent:'1.0-2'}}</span></p>
   </div>
   `,
   styles: [`
@@ -19,6 +19,9 @@ import * as fromRoot from '../store';
       display: inline-block;
       margin-top: 15px;
       font-size: 1.4em;
+    }
+    .data span{
+      font-weight: bold;
     }
   `]
 })
