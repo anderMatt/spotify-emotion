@@ -1,6 +1,7 @@
 import {Action} from '@ngrx/store';
 import {SpotifyTrack} from '../models/spotify-track.model';
 import {ImageAnalysisResponse} from '../models/image-analysis.model';
+import {EmotionProfile} from '../models/emotion-profile.model';
 
 export const ANALYZE_IMAGE_REQUEST = 'ANALYZE_IMAGE_REQUEST';
 export const ANALYZE_IMAGE_SUCCESS = 'ANALYZE_IMAGE_SUCCESS';

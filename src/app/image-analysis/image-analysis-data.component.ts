@@ -7,7 +7,7 @@ import * as fromRoot from '../store';
 @Component({
   selector: 'app-image-analysis-data',
   template: `
-  <div *ngIf="imageAnalysisData.topEmotion" class="data">
+  <div *ngIf="imageAnalysisData" class="data">
   <p>Top Emotion: {{imageAnalysisData.topEmotion | capitalize}}</p>
   <p>Confidence Level: {{imageAnalysisData.confidenceLevel | percent:'1.0-2'}}</p>
   </div>

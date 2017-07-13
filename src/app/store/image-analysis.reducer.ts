@@ -2,6 +2,7 @@ import {Action} from '@ngrx/store';
 import {SpotifyTrack} from '../models/spotify-track.model';
 import * as ImageAnalysisModel from '../models/image-analysis.model';
 import * as imageAnalysis from './image-analysis.actions';
+import {EmotionProfile} from '../models/emotion-profile.model';
 
 export enum ImageAnalysisStatus{
 	success,
@@ -10,21 +11,34 @@ export enum ImageAnalysisStatus{
 	neutral
 };
 
+// export interface State{
+// 	image: string,
+// 	topEmotion: string,
+// 	confidenceLevel: number,
+// 	status: ImageAnalysisStatus,
+// 	playlist: [SpotifyTrack]
+// };
 export interface State{
 	image: string,
-	topEmotion: string,
-	confidenceLevel: number,
+	emotionProfile: EmotionProfile,
 	status: ImageAnalysisStatus,
 	playlist: [SpotifyTrack]
 };
 
+// export const initialState: State = {
+// 	image: null,
+// 	topEmotion: null,
+// 	confidenceLevel: null,
+// 	status: ImageAnalysisStatus.neutral,
+// 	playlist: null
+// };
 export const initialState: State = {
 	image: null,
-	topEmotion: null,
-	confidenceLevel: null,
+	emotionProfile: null,
 	status: ImageAnalysisStatus.neutral,
 	playlist: null
 };
+
 
 
 /******************** REDUCER ********************/
@@ -40,6 +54,7 @@ export function reducer(state: State = initialState, action: imageAnalysis.Actio
 			return Object.assign({}, state, action.payload, {
 				status: ImageAnalysisStatus.success,
 			});
+
 		case imageAnalysis.ANALYZE_IMAGE_FAIL:
 			return Object.assign({}, state, {
 				status: ImageAnalysisStatus.fail

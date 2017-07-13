@@ -26,12 +26,7 @@ export const getImage = createSelector(getImageAnalysisState, imageAnalysis.getI
 export const getPlaylist = createSelector(getImageAnalysisState, imageAnalysis.getPlaylist);
 export const getAnalysisLoadingStatus = createSelector(getImageAnalysisState, (state: imageAnalysis.State) => state.status);
 
-export const getImageAnalysisData = createSelector(getImageAnalysisState, (state: imageAnalysis.State) => {
-	return {
-		topEmotion: state.topEmotion,
-		confidenceLevel: state.confidenceLevel
-	};
-});
+export const getImageAnalysisData = createSelector(getImageAnalysisState, (state: imageAnalysis.State) => state.emotionProfile);
 //Selectors for status, playlist, etc.
 
 export const getTrackAudioState = (state: AppState) => state.trackAudio;

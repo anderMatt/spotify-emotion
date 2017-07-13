@@ -7,15 +7,15 @@ import 'rxjs/add/operator/map';
 import {SpotifyTrack} from '../models/spotify-track.model';
 import * as imageAnalysis from '../store/image-analysis.actions';
 
-@Injectable()
-export class ImageAnalyzerService {
-	private url = "/api/playlist";
-	constructor(private store: Store<fromRoot.AppState>, private http: Http ){
 
+@Injectable()
+export class ImageAnalyzerService{
+	private url = "/api/playlist";
+	constructor(private store: Store<fromRoot.AppState>, private http: Http){
 	}
 
-	generatePlaylistFromImage(imageStr: string){  //Base64 encoded image string to get PL from.
+	generatePlaylistFromImage(imageStr: string){
 		return this.http.post(this.url, {image: imageStr})
-			.map(res => res.json());  //type is ImageAnalysisResponse
+			.map(res => res.json());
 	}
 }
