@@ -7,9 +7,9 @@ import * as fromRoot from '../store';
 @Component({
   selector: 'app-image-analysis-data',
   template: `
-  <div *ngIf="imageAnalysisData" class="data">
-  <p>Top Emotion: {{imageAnalysisData.topEmotion | capitalize}}</p>
-  <p>Confidence Level: {{imageAnalysisData.confidenceLevel | percent:'1.0-2'}}</p>
+  <div *ngIf="emotionProfile.topEmotion" class="data">
+  <p>Top Emotion: {{emotionProfile.topEmotion | capitalize}}</p>
+  <p>Confidence Level: {{emotionProfile.confidenceLevel | percent:'1.0-2'}}</p>
   </div>
   `,
   styles: [`
@@ -24,13 +24,13 @@ import * as fromRoot from '../store';
 })
 export class ImageAnalysisDataComponent implements OnInit {
 
-  imageAnalysisData: any;
+  emotionProfile: any;
 
   constructor(private store: Store<fromRoot.AppState>) {
   	//
-  this.store.select(fromRoot.getImageAnalysisData)
-  		.subscribe(data => {
-  			this.imageAnalysisData = data
+  this.store.select(fromRoot.getEmotionProfile)
+  		.subscribe(profile => {
+  			this.emotionProfile = profile
   		});
   }
 
