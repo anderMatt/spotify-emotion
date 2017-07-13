@@ -32,17 +32,20 @@ import * as trackAudio from '../store/track-audio.actions';
       width: 100%;
       background-color: rgba(0, 0, 0, 0.50);
     }
+    .err-msg{
+      display: inline-block;
+    }
   `]
 })
 export class PlaylistComponent implements OnInit {
   playlist$: Observable<[SpotifyTrack]>;
   activeTrack$: Observable<SpotifyTrack>;
-  loading$: Observable<ImageAnalysisStatus>;
+  status$: Observable<ImageAnalysisStatus>;
   message$: Observable<string>;
 
   constructor(private store: Store<fromRoot.AppState>) {
   	this.playlist$ = this.store.select(fromRoot.getPlaylist);
-    this.loading$ = this.store.select(fromRoot.getAnalysisLoadingStatus);
+    this.status$ = this.store.select(fromRoot.getAnalysisLoadingStatus);
     this.activeTrack$ = this.store.select(fromRoot.getActiveTrack);
     this.message$ = this.store.select(fromRoot.getMessage);
   }

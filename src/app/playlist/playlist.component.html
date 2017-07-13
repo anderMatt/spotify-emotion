@@ -7,9 +7,11 @@
 				(playPreview)="playTrackPreview(track)" (stopPreview)="stopTrackPreview()"></app-playlist-detail>
 			</li>
 		</ul>
-		<div *ngIf="(loading$ | async) === 2" class="loading">
+		<div *ngIf="(status$ | async) === 2" class="loading">
 			<img src="assets/loading-ring.svg"/>
 		</div>
 	</div>
-	<div>MESSAGE IS: {{message$ | async}}</div>
+	<p *ngIf="(status$ | async) === 1" class="alert alert-warning err-msg">
+		{{message$ | async}}
+	</p>
  </div>

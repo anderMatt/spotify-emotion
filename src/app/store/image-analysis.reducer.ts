@@ -61,10 +61,11 @@ export function reducer(state: State = initialState, action: imageAnalysis.Actio
 			});
 
 		case imageAnalysis.ANALYZE_IMAGE_FAIL:
-		console.log('INSIDE ANALYZEIMAGEFAIL case. Msg payload: ' + action.payload);
 			return Object.assign({}, state, {
 				status: ImageAnalysisStatus.fail,
-				message: action.payload
+				message: action.payload,
+				playlist: [],
+				emotionProfile: {topEmotion: null, confidenceLevel: null}
 			});
 		default:
 			return state;
