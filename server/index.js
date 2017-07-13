@@ -2,7 +2,8 @@ const express = require('express'),
 	app = express(),
 	bodyParser = require('body-parser'),
 	EmotionApi = require('./emotion-api'),
-	SpotifyApi = require('./spotify-api');
+	SpotifyApi = require('./spotify-api'),
+	errors = require('./errors');
 
 const request = require('request');
 
@@ -26,14 +27,22 @@ app.post('/api/playlist', function(req, res){   //?image=BASE64STRING
 		.then(emotionProfile => spotifyApi.generatePlaylistFromEmotion(emotionProfile.topEmotion)
 			.then(playlist => {
 				return res.status(200).json({
+					success: true,
 					topEmotion: emotionProfile.topEmotion,
 					confidenceLevel: emotionProfile.confidenceLevel,
 					playlist: playlist
 				});
-			}));
-});
-
-
+			})
+		).catch(err => {
+			if(err.name === "NoFaceDetectedError"){
+				console.log('Catching no faces detected error!');
+			}
+			else{
+				console.log('Inside catch block. Err.name not matching');
+				console.log(err.name);
+			}
+		});
+	});
 
 app.post('/api/test', function(req, res){
 	console.log('Inside test POST endpoint');

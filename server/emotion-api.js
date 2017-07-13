@@ -2,7 +2,8 @@
 
 //API REFERENCE:    https://westus.dev.cognitive.microsoft.com/docs/services/5639d931ca73072154c1ce89/operations/563b31ea778daf121cc3a5fa
 
-const request = require('request');
+const request = require('request'),
+	errors = require('./errors');
 
 /**
  * @class
@@ -56,14 +57,12 @@ EmotionApi.prototype._getRelevantEmotionScores = function(allEmotionScores){
 		"anger",
 		"neutral",
 		"sadness"
-		//fear?
 	];
 	var emotionScores = relevantEmotions.reduce((scores, emotion) => {
 		scores[emotion] = allEmotionScores[emotion];
 		return scores;
 	}, {});
 
-	console.log('The relevant emotion scores: ' + JSON.stringify(emotionScores));
 	return emotionScores;
 };
 
@@ -71,9 +70,7 @@ EmotionApi.prototype._getRelevantEmotionScores = function(allEmotionScores){
 EmotionApi.prototype._parseEmotionFromResponse = function(apiResponse){
 	if(apiResponse.length === 0){
 		//No face was detected
-		console.log('APIresponse length is 0. No faces detected.');
-		// return Promise.resolve(null);
-		return Promise.resolve(null);
+		return Promise.reject(new errors.NoFaceDetectedError());
 	}
 	//get emotion with highest score.
 	//FOR NOW: only first face
@@ -83,7 +80,6 @@ EmotionApi.prototype._parseEmotionFromResponse = function(apiResponse){
 		return relevantEmotionScores[a] > relevantEmotionScores[b] ? a : b;
 	});
 
-	// return Promise.resolve(mostPrevalentEmotion);
 	return Promise.resolve({
 		topEmotion: mostPrevalentEmotion,
 		confidenceLevel: allEmotionScores[mostPrevalentEmotion]
