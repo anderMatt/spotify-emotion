@@ -27,6 +27,8 @@ import {ImageAnalyzerService} from '../../shared/image-analyzer.service';
   	.btn{
   		font-size: 1.3em;
   		height: 2em;
+      min-width: 219px;
+      margin-top: 10px;
   	}
   	.btn-group{
 		vertical-align: middle;
