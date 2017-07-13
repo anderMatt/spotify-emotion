@@ -17,32 +17,34 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 //APIs
 var emotionApi = new EmotionApi(EMOTION_API_KEY);
-var spotifyApi = new SpotifyApi();  //gets access token in constructor
+var spotifyApi = new SpotifyApi();  
 
-//Generate playlist from image
-app.post('/api/playlist', function(req, res){   //?image=BASE64STRING
+
+app.post('/api/playlist', function(req, res){
 	var imageBase64 = req.body.image;
+	var response = {};
 
 	emotionApi.generateEmotionProfile(imageBase64)
-		.then(emotionProfile => spotifyApi.generatePlaylistFromEmotion(emotionProfile.topEmotion)
-			.then(playlist => {
-				return res.status(200).json({
-					success: true,
-					topEmotion: emotionProfile.topEmotion,
-					confidenceLevel: emotionProfile.confidenceLevel,
-					playlist: playlist
-				});
-			})
-		).catch(err => {
-			if(err.name === "NoFaceDetectedError"){
-				console.log('Catching no faces detected error!');
-			}
-			else{
-				console.log('Inside catch block. Err.name not matching');
-				console.log(err.name);
-			}
-		});
-	});
+	.then(emotionProfile => {
+		response.emotionProfile = emotionProfile;
+		return spotifyApi.generatePlaylistFromEmotion(emotionProfile.topEmotion)
+	})
+	.then(playlist => {
+		response.playlist = playlist 
+		return res.status(200).json(response);
+	})
+	.catch(err => {
+		if(err instanceof errors.NoFaceDetectedError){
+			console.log('Catching no face error');
+			return res.status(200).json({
+				playlist: [],
+				emotionProfile: {},
+				message: 'No faces were detected in the image'
+				//emotionProfile
+			});
+		}
+	})
+})
 
 app.post('/api/test', function(req, res){
 	console.log('Inside test POST endpoint');
