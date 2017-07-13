@@ -48,9 +48,11 @@ SpotifyApi.prototype._handleAccessTokenResponse = function(err, resp, body){
 	if(err){
 		console.log('SpotifyPOST callback got an err: ' + err);
 	}
-	else if(resp.statusCode === 200){
+	else if(resp.statusCode !== 200){
+		console.log('SpotifyPOST callback got unexpected status code ' + resp.statusCode);
+	}
+	else{
 		if(body.hasOwnProperty('access_token')){
-			console.log('Got this access token from SPotify: ' + body.access_token);
 			this.accessToken = body.access_token;
 			this.accessTokenValidDurationMs = body.expires_in * 1000;  //in seconds.
 			this.accessTokenStartTime = new Date().getTime();
@@ -58,11 +60,7 @@ SpotifyApi.prototype._handleAccessTokenResponse = function(err, resp, body){
 		}
 		else{
 			console.log('Status code 200, but no token was provided');
-			success = false;
 		}
-	}
-	else{
-		console.log('SpotifyPOST callback got unexpected status code: ' + resp.statusCode);
 	}
 	return success;
 }
@@ -78,14 +76,12 @@ SpotifyApi.prototype.makeApiCall = function(url){
 SpotifyApi.prototype._accessTokenExpired = function(){
 	var now = new Date().getTime();
 	var expired = (now - this.accessTokenStartTime) > this.accessTokenValidDurationMs;
-	console.log('Token expired status: ' + expired);
 	return (now - this.accessTokenStartTime) > this.accessTokenValidDurationMs;
 }
 
 SpotifyApi.prototype._makeApiCall = function(url){
 	var self = this;
 
-	console.log('Inside _makeApiCall');
 	var reqPromise = function(resolve, reject){
 		request.get({
 			url: url,
@@ -106,7 +102,7 @@ SpotifyApi.prototype._makeApiCall = function(url){
 			}
 			else{
 				console.log('Spotify_makeAPiCall will reject, with this unexpected status code: ' + resp.statusCode);
-				console.log(JSON.stringify(body));
+				//this.handleStatusCode ?
 				reject(resp.statusCode);
 			}
 		});
@@ -127,11 +123,8 @@ SpotifyApi.prototype.generatePlaylistFromEmotion = function(emotion){
 	var genres = config.genresByEmotion[emotion];
 	var url = `${config.endpoints.spotify.recommendations}?seed_genres=${genres.join(',')}&limit=${config.trackLimit}`;
 
-	// return this._makeApiCall(url);
 	return this.makeApiCall(url);
 };
 
 
-///////FOR TESTING
 module.exports = SpotifyApi;
-// var api = new SpotifyApi();
