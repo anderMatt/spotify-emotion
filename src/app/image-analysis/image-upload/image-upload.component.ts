@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Store} from '@ngrx/store';
 
 import * as fromRoot from '../../store';
+import {ImageAnalysisStatus} from '../../store/image-analysis.reducer';
 import {AnalyzeImageRequestAction} from '../../store/image-analysis.actions';
 
 import {Observable} from 'rxjs/Observable';
@@ -13,10 +14,10 @@ import {ImageAnalyzerService} from '../../shared/image-analyzer.service';
   selector: 'app-image-upload',
   template: `
   <div class="btn-toolbar" role="group">
-  	<button class="btn btn-primary"><label for="image-input">{{image? 'Use Different Image' : 'Upload Image'}} <i class="fa fa-upload"></i></label>
+  	<button [disabled]="(loading$ |async) === 2" class="btn btn-primary"><label for="image-input">{{image? 'Use Different Image' : 'Upload Image'}} <i class="fa fa-upload"></i></label>
   	<input (change)="onFileSelect($event)" type="file" id="image-input" accept="image/jpg, image/png" />
   	</button>
-  	<button *ngIf="image" class="btn btn-success" (click)="analyzeImage()">Generate Playlist <i class="fa fa-music"></i></button>
+  	<button [disabled]="(loading$ | async) === 2" *ngIf="image" class="btn btn-success" (click)="analyzeImage()">Generate Playlist <i class="fa fa-music"></i></button>
   </div>
   <app-image-preview [image]="image"></app-image-preview>
 
@@ -44,10 +45,13 @@ import {ImageAnalyzerService} from '../../shared/image-analyzer.service';
 export class ImageUploadComponent implements OnInit {
   image: string;
   fileReader: FileReader;
+  loading$: Observable<ImageAnalysisStatus>;
 
   constructor(private imageAnalyzerService: ImageAnalyzerService, private store: Store<fromRoot.AppState>) {
   	this.fileReader = new FileReader();
   	this._initFileReader();
+
+    this.loading$ = this.store.select(fromRoot.getAnalysisLoadingStatus);
   }
 
   ngOnInit() {
