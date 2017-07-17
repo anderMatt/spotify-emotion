@@ -28,6 +28,8 @@
     "core-js": "^2.4.1",
     "express": "^4.15.3",
     "font-awesome": "^4.7.0",
+    "request-promise": "^4.2.1",
+    "request-promise-native": "^1.0.4",
     "reselect": "^3.0.1",
     "rxjs": "^5.1.0",
     "zone.js": "^0.7.6"

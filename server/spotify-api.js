@@ -1,7 +1,8 @@
 'use strict'
-const request = require('request'),
+const request = require('request-promise-native'),
 	config = require('./config'),
-	helpers = require('./helpers');
+	helpers = require('./helpers'),
+	errors = require('./errors');
 
 //TODO: read from envar instead!!!
 const key = require('./spotify-api-key');
@@ -13,57 +14,40 @@ function SpotifyApi(){
 	this.accessTokenValidDurationMs = null;
 }
 
-//TODO: callback to handle errors getting token - pass to this method, and call with (null, body), (err) in request callback
 SpotifyApi.prototype._getAccessToken = function(){
 	var self = this;
-	console.log('Inside _getAccessToken()');
+
 	var endpoint = config.endpoints.spotify.accessToken;
 	var credentials = `${key.clientId}:${key.clientSecret}`
 	var encodedCredentials = new Buffer(credentials).toString('base64');
 
-	var reqPromise = function(resolve, reject){
-		request.post({
-			url: endpoint,
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-				'Authorization': `Basic ${encodedCredentials}`
-			},
-			json: true,
-			body: "grant_type=client_credentials"
-		}, function(err, resp, body){
-			var success = self._handleAccessTokenResponse(err, resp, body);
-			if(success){
-				return resolve();
-			}
-			return reject();
-		});
-	}
-	return new Promise(reqPromise);
+	var opts = {
+		url: endpoint,
+		method: 'POST',
+		json: true,
+		body: "grant_type=client_credentials",
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'Authorization': `Basic ${encodedCredentials}`
+		}
+	};
+
+	return request(opts)
+		.then(resp =>self._handleAccessTokenResponse(resp) )
+
 };
 
+SpotifyApi.prototype._handleAccessTokenResponse = function(response){
+	var token = response.access_token;
+	if(!token){
+		return Promise.reject(new errors.SpotifyAccessTokenError());
+	}
+	this.accessToken = token;
+	this.accessTokenValidDurationMs = (response.expires_in * 1000)
+	this.accessTokenStartTime = new Date().getTime();
+	return Promise.resolve();
+};
 
-SpotifyApi.prototype._handleAccessTokenResponse = function(err, resp, body){
-	var success = false;
-
-	if(err){
-		console.log('SpotifyPOST callback got an err: ' + err);
-	}
-	else if(resp.statusCode !== 200){
-		console.log('SpotifyPOST callback got unexpected status code ' + resp.statusCode);
-	}
-	else{
-		if(body.hasOwnProperty('access_token')){
-			this.accessToken = body.access_token;
-			this.accessTokenValidDurationMs = body.expires_in * 1000;  //in seconds.
-			this.accessTokenStartTime = new Date().getTime();
-			success = true;
-		}
-		else{
-			console.log('Status code 200, but no token was provided');
-		}
-	}
-	return success;
-}
 
 SpotifyApi.prototype.makeApiCall = function(url){
 	if(!this.accessToken || this._accessTokenExpired()){
@@ -71,43 +55,29 @@ SpotifyApi.prototype.makeApiCall = function(url){
 			.then(this._makeApiCall.bind(this, url));
 	}
 	return this._makeApiCall(url);
-}
+};
 
 SpotifyApi.prototype._accessTokenExpired = function(){
 	var now = new Date().getTime();
 	var expired = (now - this.accessTokenStartTime) > this.accessTokenValidDurationMs;
 	return (now - this.accessTokenStartTime) > this.accessTokenValidDurationMs;
-}
+};
 
 SpotifyApi.prototype._makeApiCall = function(url){
 	var self = this;
 
-	var reqPromise = function(resolve, reject){
-		request.get({
-			url: url,
-			headers: {
-				'Authorization': `Bearer ${self.accessToken}`
-			}
-		}, function(err, resp, body){
-			if(err){
-				console.log('Spotify_makeApiCall will reject with this err: ' + JSON.stringify(err));
-				reject(err);
-			}
-			else if(resp.statusCode === 200){
-				var data = JSON.parse(body);
-				//Will this array have len 0 is no tracks are found from the genre seeds?
-				var serializedTracks = self._serializeTracks(data.tracks);
-				resolve(serializedTracks);
-				//Response reference: https://developer.spotify.com/web-api/get-recommendations/
-			}
-			else{
-				console.log('Spotify_makeAPiCall will reject, with this unexpected status code: ' + resp.statusCode);
-				//this.handleStatusCode ?
-				reject(resp.statusCode);
-			}
+	var opts = {
+		url: url,
+		headers: {
+			'Authorization': `Bearer ${self.accessToken}`
+		}
+	};
+
+	return request(opts)
+		.then(response => {
+			let tracks = JSON.parse(response).tracks;
+			return self._serializeTracks(tracks);
 		});
-	}
-	return new Promise(reqPromise);
 };
 
 SpotifyApi.prototype._serializeTracks = function(spotifyTracks){
