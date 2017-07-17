@@ -20,8 +20,6 @@ import {ImageAnalyzerService} from '../../shared/image-analyzer.service';
   	<button [disabled]="(loading$ | async) === 2" *ngIf="image" class="btn btn-success" (click)="analyzeImage()">Generate Playlist <i class="fa fa-music"></i></button>
   </div>
   <app-image-preview [image]="image"></app-image-preview>
-
-  <!-- IMAGE PREVIEW DETAIL [src]= -->
   `,
   styles: [`
   	.btn{
@@ -29,6 +27,7 @@ import {ImageAnalyzerService} from '../../shared/image-analyzer.service';
   		height: 2em;
       min-width: 219px;
       margin-top: 10px;
+      padding: 0;
   	}
   	.btn-group{
 		vertical-align: middle;
@@ -38,6 +37,7 @@ import {ImageAnalyzerService} from '../../shared/image-analyzer.service';
   		width: 100%;
   		height: 100%;
   		cursor: pointer;
+      padding-top: 5px;
   	}
   	input[type='file']{
   		display: none;
