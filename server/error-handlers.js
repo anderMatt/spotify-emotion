@@ -6,8 +6,11 @@ function playlistGenerationErrorHandler(err, req, res, next){
 		message = 'No faces were detected in the image';
 	}
 
-	//else if emptyPlaylist
-	//else{ next(err) }
+	else if(err instanceof errors.PlaylistRequestError){
+		message = 'Sorry, there was a problem generating a playlist';
+	}
+
+	//else: next()
 
 	return res.status(200).json({
 		playlist: [],

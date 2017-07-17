@@ -77,6 +77,9 @@ SpotifyApi.prototype._makeApiCall = function(url){
 		.then(response => {
 			let tracks = JSON.parse(response).tracks;
 			return self._serializeTracks(tracks);
+		})
+		.catch(err => {
+			return Promise.reject(new errors.PlaylistRequestError());
 		});
 };
 

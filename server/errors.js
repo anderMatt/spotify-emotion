@@ -12,7 +12,15 @@ function SpotifyAccessTokenError(msg){
 
 SpotifyAccessTokenError.prototype = Error.prototype;
 
+function PlaylistRequestError(msg){
+	this.name = "PlaylistRequestError";
+	this.message = (msg || "");
+}
+
+PlaylistRequestError.prototype = Error.prototype;
+
 module.exports = {
 	NoFaceDetectedError: NoFaceDetectedError,
-	SpotifyAccessTokenError: SpotifyAccessTokenError
+	SpotifyAccessTokenError: SpotifyAccessTokenError,
+	PlaylistRequestError: PlaylistRequestError
 };
