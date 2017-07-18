@@ -9,8 +9,7 @@ import { Component, OnInit } from '@angular/core';
   <div class="row">
   	<app-image-analysis-data></app-image-analysis-data>
   </div>
-  `,
-  styleUrls: ['./image-analysis.component.css']
+  `
 })
 export class ImageAnalysisComponent implements OnInit {
 
