@@ -4,8 +4,8 @@ const request = require('request-promise-native'),
 	helpers = require('./helpers'),
 	errors = require('./errors');
 
-//TODO: read from envar instead!!!
-const key = require('./spotify-api-key');
+const SPOTIFY_API_CLIENT_ID = process.env.SPOTIFY_API_CLIENT_ID;
+const SPOTIFY_API_CLIENT_SECRET = process.env.SPOTIFY_API_CLIENT_SECRET;
 
 
 function SpotifyApi(){
@@ -18,7 +18,7 @@ SpotifyApi.prototype._getAccessToken = function(){
 	var self = this;
 
 	var endpoint = config.endpoints.spotify.accessToken;
-	var credentials = `${key.clientId}:${key.clientSecret}`
+	var credentials = `${SPOTIFY_API_CLIENT_ID}:${SPOTIFY_API_CLIENT_SECRET}`
 	var encodedCredentials = new Buffer(credentials).toString('base64');
 
 	var opts = {

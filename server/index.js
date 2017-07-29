@@ -9,9 +9,7 @@ const express = require('express'),
 const request = require('request');
 
 const port = process.env.PORT || 3000;
-const EMOTION_API_KEY = require('./emotion-api-key.js'); //TODO: env var.
-//const APIkey = process.env.EMOTION_API_KEY
-//emotion Api = new EmotionApi(APIKey);
+const EMOTION_API_KEY = process.env.EMOTION_API_KEY;
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended: false}));
