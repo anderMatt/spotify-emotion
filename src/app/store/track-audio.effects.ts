@@ -4,7 +4,7 @@ import {Actions, Effect} from '@ngrx/effects';
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchmap';
+import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 
 import {TrackAudioService} from '../shared/track-audio.service';

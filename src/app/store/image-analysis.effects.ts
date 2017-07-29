@@ -5,9 +5,9 @@ import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/switchmap';
+import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/mergemap';
+import 'rxjs/add/operator/mergeMap';
 
 import {ImageAnalyzerService} from '../shared/image-analyzer.service';
 import {SpotifyTrack} from '../models/spotify-track.model';
