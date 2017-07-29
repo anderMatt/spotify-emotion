@@ -18,9 +18,7 @@
     ]
   },
   "files": [
-    "test.ts"
   ],
   "include": [
-    "**/*.spec.ts"
   ]
 }
