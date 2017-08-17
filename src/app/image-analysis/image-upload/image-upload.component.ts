@@ -14,9 +14,10 @@ import {ImageAnalyzerService} from '../../shared/image-analyzer.service';
   selector: 'app-image-upload',
   template: `
   <div class="btn-toolbar" role="group">
-  	<button [disabled]="(loading$ |async) === 2" class="btn btn-primary"><label for="image-input">{{image? 'Use Different Image' : 'Upload Image'}} <i class="fa fa-upload"></i></label>
-  	<input (change)="onFileSelect($event)" type="file" id="image-input" accept="image/jpg, image/png" />
-  	</button>
+  <div class="btn btn-primary">
+    <label for="image-input">{{image? 'Use Different Image' : 'Upload Image'}} <i class="fa fa-upload"></i></label>
+    <input (change)="onFileSelect($event)" type="file" id="image-input" accept="image/jpg, image/png" />
+  </div>
   	<button [disabled]="(loading$ | async) === 2" *ngIf="image" class="btn btn-success" (click)="analyzeImage()">Generate Playlist <i class="fa fa-music"></i></button>
   </div>
   <app-image-preview [image]="image"></app-image-preview>
@@ -57,6 +58,10 @@ export class ImageUploadComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  IWASCLICKED(){
+    console.log('Fileinput BUTTON was clicked!');
   }
 
   _initFileReader(){
