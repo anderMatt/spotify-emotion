@@ -17,7 +17,6 @@ function EmotionApi(apiKey){
 }
 
 EmotionApi.prototype._makeApiCall = function(imageBlob){
-	console.log('Inside EmotionApi#_makeApiCall(): ');
 	var self = this;
 
 	var reqPromise = function(resolve, reject){
@@ -40,6 +39,10 @@ EmotionApi.prototype._makeApiCall = function(imageBlob){
 			else if(!err && resp.statusCode === 200){
 				var data = JSON.parse(body);
 				resolve(data);
+			}
+			else if(resp.statusCode === 401){
+				console.log('Got 401 status code');
+				reject(new errors.ExpiredApiKeyError());
 			}
 			else{
 				console.log('Got unexpected status code from microsoft api: ' + resp.statusCode);

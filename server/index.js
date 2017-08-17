@@ -46,7 +46,7 @@ app.post('/api/playlist', function(req, res, next){
 	.catch(next);
 });
 
-// app.use(errHandlers.playlistGenerationErrorHandler);
+app.use(errHandlers.playlistGenerationErrorHandler);
 
 
 app.listen(port, function(){

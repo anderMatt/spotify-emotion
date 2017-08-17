@@ -19,8 +19,16 @@ function PlaylistRequestError(msg){
 
 PlaylistRequestError.prototype = Error.prototype;
 
+function ExpiredApiKeyError(msg){
+	this.name = "ExpiredApiKeyError";
+	this.message = (msg || "");
+}
+
+ExpiredApiKeyError.prototype = Error.prototype;
+
 module.exports = {
 	NoFaceDetectedError: NoFaceDetectedError,
 	SpotifyAccessTokenError: SpotifyAccessTokenError,
-	PlaylistRequestError: PlaylistRequestError
+	PlaylistRequestError: PlaylistRequestError,
+	ExpiredApiKeyError: ExpiredApiKeyError
 };
