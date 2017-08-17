@@ -1,6 +1,8 @@
 const errors = require('./errors');
 
 function playlistGenerationErrorHandler(err, req, res, next){
+	console.log('INSIDE EXPRESS ERR ROUTE');
+	console.log(err);
 	var message = '';
 
 	if(err.name === 'NoFaceDetectedError'){

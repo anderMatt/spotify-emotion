@@ -2,7 +2,8 @@
 
 //API REFERENCE:    https://westus.dev.cognitive.microsoft.com/docs/services/5639d931ca73072154c1ce89/operations/563b31ea778daf121cc3a5fa
 
-const request = require('request'),
+// const request = require('request'),
+const request = require('request-promise-native'),
 	errors = require('./errors');
 
 /**
@@ -19,42 +20,30 @@ function EmotionApi(apiKey){
 EmotionApi.prototype._makeApiCall = function(imageBlob){
 	var self = this;
 
-	var reqPromise = function(resolve, reject){
-		request
-		.post({
-			url: self.endpoint,
-			headers: {
-				'Content-Type': 'application/octet-stream',
-				'Ocp-Apim-Subscription-Key': self.apiKey
-			},
-			body: imageBlob //binary blob of image
-			// json: {
-			// 	url: imageurl
-			// }
-		}, function(err, resp, body){
-			if(err){
-				console.log('Got this ERR in api call: ' + JSON.stringify(err));
-				reject(err);
-			}
-			else if(!err && resp.statusCode === 200){
-				var data = JSON.parse(body);
-				resolve(data);
-			}
-			else if(resp.statusCode === 401){
-				console.log('Got 401 status code');
-				reject(new errors.ExpiredApiKeyError());
-			}
-			else{
-				console.log('Got unexpected status code from microsoft api: ' + resp.statusCode);
-				reject({'Unexpected status code': resp.statusCode});
-			}
-		});
-	}
-	return new Promise(reqPromise);
+	var opts = {
+		method: 'POST',
+		url: this.endpoint,
+		headers: {
+			'Content-Type': 'application/octet-stream',
+			'Ocp-Apim-Subscription-Key': this.apiKey
+		},
+		body: imageBlob,
+		json: true
+	};
+
+	return request(opts)
+		.catch(err => self._handleApiError(err));
 };
 
+EmotionApi.prototype._handleApiError = function(response){
+	if(response.statusCode === 401){
+		console.log('Catching emotion 401 status response');
+		return Promise.reject(new errors.ExpiredApiKeyError());
+	}
+};
+
+
 EmotionApi.prototype._getRelevantEmotionScores = function(allEmotionScores){
-	console.log('Inside _getRelevantEmotionScores. Passed all scores: ' + JSON.stringify(allEmotionScores));
 	var relevantEmotions = [
 		"happiness",
 		"anger",
@@ -90,7 +79,6 @@ EmotionApi.prototype._parseEmotionFromResponse = function(apiResponse){
 };
 
 EmotionApi.prototype.generateEmotionProfile = function(imageBase64){
-	console.log('Inside #generateEmotionProfile()');
 	var raw = imageBase64.split(',')[1];
 	var imageBlob = new Buffer(raw, 'base64');
 	return this._makeApiCall(imageBlob)
