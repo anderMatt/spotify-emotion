@@ -27,17 +27,24 @@ EmotionApi.prototype._makeApiCall = function(imageBlob){
 			'Content-Type': 'application/octet-stream',
 			'Ocp-Apim-Subscription-Key': this.apiKey
 		},
-		body: imageBlob,
-		json: true
+		body: imageBlob
 	};
 
 	return request(opts)
-		.catch(err => self._handleApiError(err));
+		.then(res => {
+			var parsed;
+			try{
+				parsed = JSON.parse(res);
+				return parsed;
+			}
+			catch(e){
+				return Promise.reject();
+			}
+		});
 };
 
 EmotionApi.prototype._handleApiError = function(response){
 	if(response.statusCode === 401){
-		console.log('Catching emotion 401 status response');
 		return Promise.reject(new errors.ExpiredApiKeyError());
 	}
 };
@@ -60,6 +67,7 @@ EmotionApi.prototype._getRelevantEmotionScores = function(allEmotionScores){
 
 //Parse most relevant emotion from API response, among the emotions we care about.
 EmotionApi.prototype._parseEmotionFromResponse = function(apiResponse){
+	// console.log('Inside _parseEmotionFromResponse. apitResponse: ' + util.inspect(apiResponse));
 	if(apiResponse.length === 0){
 		//No face was detected
 		return Promise.reject(new errors.NoFaceDetectedError());
@@ -83,6 +91,7 @@ EmotionApi.prototype.generateEmotionProfile = function(imageBase64){
 	var imageBlob = new Buffer(raw, 'base64');
 	return this._makeApiCall(imageBlob)
 		.then(this._parseEmotionFromResponse.bind(this))
+		.catch(this._handleApiError.bind(this));
 };
 
 
