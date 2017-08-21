@@ -31,24 +31,8 @@ EmotionApi.prototype._makeApiCall = function(imageBlob){
 	};
 
 	return request(opts)
-		.then(res => {
-			var parsed;
-			try{
-				parsed = JSON.parse(res);
-				return parsed;
-			}
-			catch(e){
-				return Promise.reject();
-			}
-		});
+		.then(res => JSON.parse(res))
 };
-
-EmotionApi.prototype._handleApiError = function(response){
-	if(response.statusCode === 401){
-		return Promise.reject(new errors.ExpiredApiKeyError());
-	}
-};
-
 
 EmotionApi.prototype._getRelevantEmotionScores = function(allEmotionScores){
 	var relevantEmotions = [
@@ -70,7 +54,8 @@ EmotionApi.prototype._parseEmotionFromResponse = function(apiResponse){
 	// console.log('Inside _parseEmotionFromResponse. apitResponse: ' + util.inspect(apiResponse));
 	if(apiResponse.length === 0){
 		//No face was detected
-		return Promise.reject(new errors.NoFaceDetectedError());
+		// return Promise.reject(new errors.NoFaceDetectedError());
+		throw new errors.NoFaceDetectedError();
 	}
 	//get emotion with highest score.
 	//FOR NOW: only first face
@@ -80,18 +65,18 @@ EmotionApi.prototype._parseEmotionFromResponse = function(apiResponse){
 		return relevantEmotionScores[a] > relevantEmotionScores[b] ? a : b;
 	});
 
-	return Promise.resolve({
+	return {
 		topEmotion: mostPrevalentEmotion,
 		confidenceLevel: allEmotionScores[mostPrevalentEmotion]
-	});
+	};
 };
+
 
 EmotionApi.prototype.generateEmotionProfile = function(imageBase64){
 	var raw = imageBase64.split(',')[1];
 	var imageBlob = new Buffer(raw, 'base64');
 	return this._makeApiCall(imageBlob)
 		.then(this._parseEmotionFromResponse.bind(this))
-		.catch(this._handleApiError.bind(this));
 };
 
 
